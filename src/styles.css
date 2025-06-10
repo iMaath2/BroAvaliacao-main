@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { 
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+
+    /* corres do sistema */
+    --corPrimaria: #fdde51;
+    --corSegundaria:  #f9dc68 ;
+    --corTerciaria: #f36e4c;
+
+    --corBranco:#f5f5e4;
+    --corPreto:  #312f2f;
+
+     /* estilo global */
+
+     --alturaPadrao: 94vh;
+
+    main{
+        min-height:var(--alturaPadrao);
+        height: auto;
+        width: 98.9vw;
+        padding-top: 6vh;    
+        
+        background: var(--corBranco);
+    }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

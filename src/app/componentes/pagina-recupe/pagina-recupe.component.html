@@ -1,0 +1,49 @@
+<main>
+    <section class="SesRec">
+        <div class="fundoRec">
+            <div class="carBlablabla">
+                <p class="ocultarCelular">
+                    Mas se lembrou da sua senha, <a routerLink="/"> clique aqui</a> para retornar.
+                </p>
+                <p class="ocultarPC">
+                    Lembrou da sua senha? <a routerLink="/"> clique aqui</a>
+                </p>
+            </div>
+            <div class="divForm">
+                <form action="#" class="formulario" method="post" [formGroup]="formulario">
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput type="text" formControlName="email" placeholder="Aufredo de medeiros"
+                            required />
+                        @if (validarCampo("email") || houveErro) {
+                        <mat-error> {{mensagemErroE}}</mat-error>
+                        }
+                    </mat-form-field>
+                    <br />
+                    <br class="ocultarPC" />
+                    <mat-form-field>
+                        <mat-label>Nova senha</mat-label>
+                        <input matInput type="password" formControlName="senha" required />
+                        @if (validarCampo("senha") || houveErro) {
+                        <mat-error> {{mensagemErroS}}</mat-error>
+                        }
+                    </mat-form-field>
+                    <br />
+                    <br class="ocultarPC" />
+                    <mat-form-field>
+                        <mat-label>Confirmar senha</mat-label>
+                        <input matInput type="password" formControlName="cSenha" required />
+                        @if (validarCampo("cSenha") || houveErro) {
+                        <mat-error> {{mensagemErroCV}}</mat-error>
+                        }
+                    </mat-form-field>
+                    <br />
+                    <br class="ocultarPC" />
+                    <button mat-raised-button [disabled]="!formulario.valid || this.formulario.value.senha != this.formulario.value.cSenha">
+                        Cadastrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>

@@ -1,0 +1,64 @@
+header{
+    background:var(--corPrimaria);
+    width: 98.9vw;
+    height: 6vh;
+    position: fixed;
+    z-index: 4;
+}
+
+
+router-outlet{
+    width: 98.9vw;
+    height: auto;   
+}
+
+footer{
+    background-color: #312f2f;
+    width: 98.9vw;
+    min-height: 35vh;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    border-radius: 0.5vh;
+}
+footer a{
+    color: rgb(209, 147, 238);
+
+    &:hover{
+        color: rgb(133, 51, 173);
+    }
+}
+footer h1{
+    font-size: 1.5rem;
+    color:  var(--corBranco);
+}
+footer p{ 
+    color:  var(--corBranco);
+    width: 100%;
+}
+footer ul{
+    color:  var(--corBranco);
+}
+
+@media (min-width: 1080px) {
+    footer{
+        display: flex;
+        justify-content: space-evenly;
+        
+    }
+    footer section{
+        width: 20%;
+    }
+}
+
+@media (max-width: 1080px) {
+    footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       flex-direction: column;
+        flex-wrap: wrap;
+    }
+    footer section{
+        width: 90%;
+    }
+}

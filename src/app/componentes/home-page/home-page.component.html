@@ -1,0 +1,122 @@
+<header class="navbar">
+    <div class="navbar-container">
+        <a class="navbar-brand" (click)="scrolar('home')">
+            <span class="brand-text">BroAvaliacao</span>
+        </a>
+        <nav class="navbar-links">
+            <a (click)="scrolar('login')">Login</a>
+            <a class="cta-link" (click)="scrolar('cadastro')">Cadastre-se</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="home" class="SesHome">
+        <section>
+            <img src="https://plus.unsplash.com/premium_photo-1693086415674-a046d5152c6b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Prato gourmet de restaurante" />
+            <div>
+                <p>Descubra e avalie os melhores restaurantes da sua cidade.</p>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <p>
+                    <a (click)="scrolar('cadastro')">Cadastre-se</a> e compartilhe suas experiências gastronômicas com a comunidade.
+                </p>
+            </div>
+            <img src="https://plus.unsplash.com/premium_photo-1661434796182-a411d8782d68?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Ambiente interno de um restaurante aconchegante" />
+        </section>
+
+        <section>
+            <img src="https://images.unsplash.com/photo-1681270543584-8e541a1bb056?q=80&w=1988&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chef preparando um prato na cozinha" />
+            <div>
+                <p>
+                    Já é um gourmet? <a (click)="scrolar('login')">Faça seu login</a> e continue explorando.
+                </p>
+            </div>
+        </section>
+    </section>
+
+    <section id="login" class="SesLogin">
+        <div class="fundoLogin">
+            <div class="carBlablabla">
+                <p class="ocultarCelular">
+                    Faça parte da nossa comunidade. Avalie, comente e encontre seu próximo restaurante favorito.
+                </p>
+                <p class="ocultarPC">
+                    Não tem conta? <a (click)="scrolar('cadastro')">Cadastre-se</a>
+                </p>
+            </div>
+            <div class="divForm">
+                <form class="formulario" [formGroup]="formulario">
+                    <h3>Login</h3>
+                    <mat-form-field>
+                        <mat-label>Email ou Usuário</mat-label>
+                        <input matInput type="text" formControlName="usuario" required />
+                        @if (formulario.get("usuario")?.invalid) {
+                        <mat-error>Campo obrigatório</mat-error>
+                        }
+                    </mat-form-field>
+                    
+                    <mat-form-field>
+                        <mat-label>Senha</mat-label>
+                        <input matInput type="password" formControlName="senha" required />
+                        @if (formulario.get("senha")?.invalid) {
+                        <mat-error>Mínimo de 4 letras</mat-error>
+                        }
+                    </mat-form-field>
+                    
+                    <button mat-raised-button color="primary" [disabled]="!formulario.valid" (click)="fazerLogin()">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="cadastro" class="SesCadastro">
+        <div class="fundoCad">
+            <form [formGroup]="formCadastro">
+                <h3>Crie sua Conta</h3>
+                <mat-form-field>
+                    <mat-label>Nome</mat-label>
+                    <input type="text" matInput placeholder="Alex Atala" formControlName="usuario" required />
+                    @if(formCadastro.get("usuario")?.invalid){
+                    <mat-error>Deve conter no mínimo 4 letras</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" required />
+                    @if(formCadastro.get("email")?.invalid){
+                    <mat-error>Email inválido</mat-error>
+                    }
+                </mat-form-field>
+
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Senha</mat-label>
+                        <input type="password" matInput formControlName="senha" required />
+                        @if(formCadastro.get("senha")?.invalid){
+                        <mat-error>Mínimo 4 letras</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Confirmar Senha</mat-label>
+                        <input type="password" matInput formControlName="confSenha" required />
+                        @if(formCadastro.value.confSenha !== formCadastro.value.senha && formCadastro.get('confSenha')?.touched){
+                        <mat-error>As senhas devem ser iguais</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                
+                <button mat-raised-button color="primary" (click)="fazerCadastro()" [disabled]="!formCadastro.valid || this.formCadastro.value.senha != this.formCadastro.value.confSenha">
+                    Cadastrar
+                </button>
+            </form>
+        </div>
+    </section>
+</main>

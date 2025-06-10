@@ -1,0 +1,118 @@
+
+main .SesRec {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    width: 100%;
+  
+    min-height: var(--alturaPadrao);
+    height: auto;
+    
+    .fundoRec {
+      display: flex;
+    }
+  
+    @media (min-width: 1080px) {
+      .ocultarPC {
+        display: none;
+      }
+  
+      .fundoRec {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--corTerciaria);  
+        height: 80vh;
+        width: 60vw;
+        border-radius: 3rem;
+      }
+      .carBlablabla {
+        height: 100%;
+        width: 50%;
+        background: var(--corTerciaria);
+        border-radius: 3rem;
+  
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        p {
+          width: 80%;
+          font-size: 2.5rem;
+          font-weight: 500;
+          line-height: 80%;
+          text-align: justify;
+        }
+      }
+      .divForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 50%;
+        background: var(--corSegundaria);
+  
+        border-radius: 3rem;
+  
+        form {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+  
+          width: 90%;
+          height: 90%;
+        }
+        mat-form-field {
+          width: 85%;
+        }
+        mat-error {
+          color: rgb(0, 0, 0);
+        }
+      }
+    }
+    @media (max-width: 1080px) {
+      .ocultarCelular {
+        display: none;
+      }
+     
+      flex-direction: column-reverse;
+  
+      .fundoRec {
+          display: flex;
+          flex-direction: column-reverse;
+          justify-content: space-between;
+          align-items: center;
+          background: var(--corTerciaria);
+    
+          height: 50vh;
+          width: 100%;
+      }
+  
+      .carBlablabla {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 20%;
+          width: 100%;
+      }
+  
+      .divForm{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          height: 80%;
+          width: 100%;
+  
+          form{
+              width:80%;
+          }
+          mat-form-field{
+              width: 100%;
+          }
+      }
+    }
+  }
