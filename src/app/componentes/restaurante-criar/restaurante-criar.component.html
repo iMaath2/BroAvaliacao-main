@@ -1,0 +1,49 @@
+
+<div class="container">
+  <header class="pagina-header">
+    <h1>Criar Novo Restaurante</h1>
+    <a class="btn-voltar" routerLink="/restaurantes">‹ Voltar para a lista</a>
+  </header>
+
+  <div class="form-container">
+    <form [formGroup]="formRestaurante" (ngSubmit)="criarRestaurante()">
+      
+      <div class="form-group">
+        <label for="nome">Nome do Restaurante</label>
+        <input id="nome" type="text" formControlName="nome" class="form-input">
+        
+        <div *ngIf="formRestaurante.get('nome')?.invalid && formRestaurante.get('nome')?.touched" class="error-message">
+          O nome é obrigatório e precisa de no mínimo 3 caracteres.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="abertura">Horário de Abertura</label>
+        <input id="abertura" type="time" formControlName="Abertura" class="form-input" step="1">
+         <div *ngIf="formRestaurante.get('Abertura')?.invalid && formRestaurante.get('Abertura')?.touched" class="error-message">
+          O horário de abertura é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fechamento">Horário de Fechamento</label>
+        <input id="fechamento" type="time" formControlName="fechamento" class="form-input" step="1">
+        <div *ngIf="formRestaurante.get('fechamento')?.invalid && formRestaurante.get('fechamento')?.touched" class="error-message">
+          O horário de fechamento é obrigatório.
+        </div>
+      </div>
+
+      
+      <div *ngIf="mensagemErro" class="api-error-message">
+        {{ mensagemErro }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="formRestaurante.invalid || enviando">
+          {{ enviando ? 'Criando...' : 'Criar Restaurante' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

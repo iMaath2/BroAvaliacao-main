@@ -6,6 +6,7 @@
         <nav class="navbar-links">
             <a (click)="scrolar('login')">Login</a>
             <a class="cta-link" (click)="scrolar('cadastro')">Cadastre-se</a>
+            <a routerLink="/restaurantes">Restaurantes</a> 
         </nav>
     </div>
 </header>
@@ -38,60 +39,74 @@
         </section>
     </section>
 
-    <section id="login" class="SesLogin">
+     <section class="SesResenhasDestaque">
+        <h2 class="titulo-secao">O que nossos usuários dizem</h2>
+        <div class="resenhas-container">
+            
+            <div *ngFor="let resenha of resenhasDestaque" class="resenha-card">
+                <h3 class="resenha-titulo">{{ resenha.titulo }}</h3>
+                <p class="resenha-conteudo">{{ resenha.conteudo }}</p>
+                <div class="resenha-footer">
+                    <span class="resenha-autor">- {{ resenha.autor }}</span>
+                    <span class="resenha-restaurante">em <strong>{{ resenha.restaurante }}</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="SesLogin">
         <div class="fundoLogin">
             <div class="carBlablabla">
-                <p class="ocultarCelular">
-                    Faça parte da nossa comunidade. Avalie, comente e encontre seu próximo restaurante favorito.
-                </p>
-                <p class="ocultarPC">
-                    Não tem conta? <a (click)="scrolar('cadastro')">Cadastre-se</a>
+                <p>
+                    Ainda não possui conta? <a (click)="scrolar('cadastro')">Clique aqui</a> para se cadastrar.
+                    <br /><br />
+                    Esqueceu sua senha? <a routerLink="/recuperar">Clique aqui</a> para recuperar.
                 </p>
             </div>
             <div class="divForm">
                 <form class="formulario" [formGroup]="formulario">
                     <h3>Login</h3>
                     <mat-form-field>
-                        <mat-label>Email ou Usuário</mat-label>
-                        <input matInput type="text" formControlName="usuario" required />
-                        @if (formulario.get("usuario")?.invalid) {
-                        <mat-error>Campo obrigatório</mat-error>
+                        <mat-label>Usuário</mat-label>
+                        <input matInput type="text" formControlName="usuario" placeholder="Aufredo de medeiros" required />
+                        @if (formulario.get("usuario")?.touched && formulario.get("usuario")?.invalid) {
+                            <mat-error>O campo precisa de no mínimo 4 letras.</mat-error>
                         }
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Senha</mat-label>
                         <input matInput type="password" formControlName="senha" required />
-                        @if (formulario.get("senha")?.invalid) {
-                        <mat-error>Mínimo de 4 letras</mat-error>
+                        @if (formulario.get("senha")?.touched && formulario.get("senha")?.invalid) {
+                            <mat-error>O campo precisa de no mínimo 4 letras.</mat-error>
                         }
                     </mat-form-field>
                     
-                    <button mat-raised-button color="primary" [disabled]="!formulario.valid" (click)="fazerLogin()">
-                        Entrar
+                    <button mat-raised-button [disabled]="!formulario.valid" (click)="fazerLogin()">
+                        Logar
                     </button>
                 </form>
             </div>
         </div>
     </section>
 
-    <section id="cadastro" class="SesCadastro">
+    <section class="SesCadastro">
         <div class="fundoCad">
             <form [formGroup]="formCadastro">
                 <h3>Crie sua Conta</h3>
                 <mat-form-field>
                     <mat-label>Nome</mat-label>
-                    <input type="text" matInput placeholder="Alex Atala" formControlName="usuario" required />
-                    @if(formCadastro.get("usuario")?.invalid){
-                    <mat-error>Deve conter no mínimo 4 letras</mat-error>
+                    <input type="text" matInput placeholder="Janio Quadros" formControlName="usuario" required />
+                    @if(formCadastro.get("usuario")?.touched && formCadastro.get("usuario")?.invalid){
+                        <mat-error>Deve conter no mínimo 4 letras.</mat-error>
                     }
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Email</mat-label>
                     <input type="email" matInput formControlName="email" required />
-                    @if(formCadastro.get("email")?.invalid){
-                    <mat-error>Email inválido</mat-error>
+                    @if(formCadastro.get("email")?.touched && formCadastro.get("email")?.invalid){
+                        <mat-error>Email inválido ou incompleto.</mat-error>
                     }
                 </mat-form-field>
 
@@ -99,21 +114,22 @@
                     <mat-form-field>
                         <mat-label>Senha</mat-label>
                         <input type="password" matInput formControlName="senha" required />
-                        @if(formCadastro.get("senha")?.invalid){
-                        <mat-error>Mínimo 4 letras</mat-error>
+                        @if(formCadastro.get("senha")?.touched && formCadastro.get("senha")?.invalid){
+                            <mat-error>Deve conter no mínimo 4 letras.</mat-error>
                         }
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>Confirmar Senha</mat-label>
                         <input type="password" matInput formControlName="confSenha" required />
-                        @if(formCadastro.value.confSenha !== formCadastro.value.senha && formCadastro.get('confSenha')?.touched){
-                        <mat-error>As senhas devem ser iguais</mat-error>
+                        @if(formCadastro.get('confSenha')?.touched && formCadastro.value.confSenha !== formCadastro.value.senha){
+                            <mat-error>As senhas devem ser iguais.</mat-error>
                         }
                     </mat-form-field>
                 </div>
-                
-                <button mat-raised-button color="primary" (click)="fazerCadastro()" [disabled]="!formCadastro.valid || this.formCadastro.value.senha != this.formCadastro.value.confSenha">
+                     
+                <button mat-raised-button (click)="fazerCadastro()" 
+                        [disabled]="!formCadastro.valid || formCadastro.value.senha !== formCadastro.value.confSenha">
                     Cadastrar
                 </button>
             </form>

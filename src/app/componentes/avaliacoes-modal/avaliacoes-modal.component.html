@@ -1,0 +1,55 @@
+
+
+<div class="modal-overlay" (click)="onFechar()"></div>
+
+<div class="modal-content">
+  <div class="modal-header">
+    <div>
+      <h2 class="modal-title">{{ itemSelecionado.nome }}</h2>
+      <p class="modal-subtitle">{{ itemSelecionado.descricao }}</p>
+    </div>
+    <button class="btn-fechar" (click)="onFechar()">×</button>
+  </div>
+
+  <div class="modal-body">
+    <h3>Avaliações</h3>
+    <div *ngIf="carregando" class="feedback-container"><p>Carregando...</p></div>
+    <div *ngIf="mensagemErro" class="feedback-container erro"><p>{{ mensagemErro }}</p></div>
+    
+    <div *ngIf="!carregando && !mensagemErro">
+      <div *ngIf="avaliacoes.length > 0; else semAvaliacoes" class="avaliacoes-lista">
+        <div *ngFor="let avaliacao of avaliacoes" class="avaliacao-item">
+          <h4 class="avaliacao-titulo">{{ avaliacao.titulo }}</h4>
+          <p class="avaliacao-comentario">"{{ avaliacao.conteudo }}"</p>
+          <div class="avaliacao-footer">
+              <span class="avaliacao-autor">- {{ avaliacao.autor }}</span>
+              
+              
+          </div>
+        </div>
+      </div>
+      <ng-template #semAvaliacoes>
+        <p class="feedback-container">Este item ainda não possui avaliações. Seja o primeiro!</p>
+      </ng-template>
+    </div>
+
+    
+    <div class="form-section">
+      <h3>Deixe sua avaliação</h3>
+      <form class="review-form" [formGroup]="formAvaliacao" (ngSubmit)="enviarAvaliacao()">
+        <div class="form-group">
+          <input id="titulo" type="text" placeholder="Título da sua avaliação" class="review-input" formControlName="titulo">
+        </div>
+        <div class="form-group">
+          <textarea id="comentario" rows="4" placeholder="O que você achou deste prato?" class="review-textarea" formControlName="conteudo"></textarea>
+        </div>
+        <div *ngIf="mensagemSucesso" class="api-success-message">
+          {{ mensagemSucesso }}
+        </div>
+        <button type="submit" class="btn-submit-review" [disabled]="formAvaliacao.invalid || enviandoAvaliacao">
+          {{ enviandoAvaliacao ? 'Enviando...' : 'Enviar Avaliação' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

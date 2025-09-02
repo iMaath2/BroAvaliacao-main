@@ -1,0 +1,106 @@
+
+
+
+<div *ngIf="carregando" class="container feedback-container">
+  <p>Carregando detalhes do restaurante...</p>
+</div>
+
+
+<div *ngIf="mensagemErro" class="container feedback-container erro">
+  <p>{{ mensagemErro }}</p>
+  <a routerLink="/restaurantes">Voltar para a lista</a>
+</div>
+
+
+<div class="container" *ngIf="!carregando && !mensagemErro && restaurante">
+  <header class="detalhes-header">
+    <div class="titulo-container">
+      <h1 class="nome-restaurante">{{ restaurante.nome }}</h1>
+    </div>
+    <a class="btn-voltar" routerLink="/restaurantes">‹ Voltar para a lista</a>
+  </header>
+
+  <section class="info-section">
+    <div class="info-header">
+        <h2>Informações</h2>
+        <div class="botoes-info">
+          <button class="btn-ver-avaliacoes" (click)="abrirReviewsModal()">Ver Avaliações</button>
+          <button class="btn-secondary" (click)="abrirLogModal()">Ver Alterações</button>
+        </div>
+    </div>
+    <p><strong>Horário de Abertura:</strong> {{ restaurante.Abertura }}</p>
+    <p><strong>Horário de Fechamento:</strong> {{ restaurante.fechamento }}</p>
+  </section>
+
+  <section class="cardapio-section">
+    <div class="cardapio-header">
+      <h2>Cardápio</h2>
+      <button class="btn-adicionar-item" (click)="abrirItemCriarModal()">+ Adicionar Item</button>
+    </div>
+    <div *ngIf="cardapio.length > 0; else semItens">
+      <div *ngFor="let item of cardapio" class="item-cardapio" (click)="abrirItemModal(item)">
+        <h3 class="item-nome"><span>{{ item.nome }}</span></h3>
+        <p class="item-descricao">{{ item.descricao }}</p>
+      </div>
+    </div>
+    <ng-template #semItens>
+      <p class="feedback-interno">Nenhum item cadastrado no cardápio.</p>
+    </ng-template>
+  </section>
+
+  <section class="review-form-section">
+    <h2>Deixe sua Avaliação para o Restaurante</h2>
+    <form class="review-form" [formGroup]="formAvaliacaoRestaurante" (ngSubmit)="enviarAvaliacaoRestaurante()">
+      <div class="form-group">
+        <input type="text" placeholder="Título da sua avaliação" class="review-input" formControlName="titulo">
+      </div>
+      <div class="form-group">
+        <textarea placeholder="Escreva aqui sua resenha sobre o restaurante..." rows="5" class="review-textarea" formControlName="conteudo"></textarea>
+      </div>
+      <div *ngIf="mensagemSucessoAvaliacao" class="api-success-message">{{ mensagemSucessoAvaliacao }}</div>
+      <div *ngIf="mensagemErroAvaliacao" class="api-error-message">{{ mensagemErroAvaliacao }}</div>
+      <button type="submit" class="btn-submit-review" [disabled]="formAvaliacaoRestaurante.invalid || enviandoAvaliacao">
+        {{ enviandoAvaliacao ? 'Enviando...' : 'Enviar Avaliação' }}
+      </button>
+    </form>
+  </section>
+</div>
+
+
+
+
+<div *ngIf="reviewsModalAberto" class="modal-container">
+  <div class="modal-overlay" (click)="fecharReviewsModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Avaliações de {{ restaurante?.nome }}</h2>
+        <p class="modal-subtitle">Veja o que outros usuários disseram</p>
+      </div>
+      <button class="btn-fechar" (click)="fecharReviewsModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="carregandoReviews" class="feedback-container"><p>Carregando avaliações...</p></div>
+      <div *ngIf="reviewsMensagemErro" class="feedback-container erro"><p>{{ reviewsMensagemErro }}</p></div>
+      <div *ngIf="!carregandoReviews && !reviewsMensagemErro">
+        <div *ngIf="reviews.length > 0; else semAvaliacoes">
+          <div *ngFor="let avaliacao of reviews" class="avaliacao-item">
+            <h4 class="avaliacao-titulo">{{ avaliacao.titulo }}</h4>
+            <p class="avaliacao-comentario">"{{ avaliacao.conteudo }}"</p>
+            <div class="avaliacao-footer">
+              <span class="avaliacao-autor">- {{ avaliacao.autor }}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #semAvaliacoes>
+          <div class="feedback-container"><p>Este restaurante ainda não possui avaliações.</p></div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-avaliacoes-modal *ngIf="itemModalAberto" [itemSelecionado]="itemSelecionadoParaModal" (fecharModal)="fecharItemModal()"></app-avaliacoes-modal>
+<app-log-modal *ngIf="logModalAberto" [logs]="logs" [nomeRestaurante]="restaurante?.nome || ''" (fechar)="fecharLogModal()"></app-log-modal>
+<app-item-criar-modal *ngIf="itemCriarModalAberto" [restauranteId]="restaurante!.id" (fechar)="fecharItemCriarModal($event)"></app-item-criar-modal>

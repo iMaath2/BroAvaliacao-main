@@ -1,62 +1,82 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { cadastroUsuarioRequest, UsuarioResponse } from '../../DTOs/cadastroDTO';
+import { 
+  LoginRequest, 
+  CadastroRequest,
+  LoginResponse,
+  Page, 
+  RestauranteDTO, 
+  RestauranteResponse, 
+  ItemResponse, 
+  LogResponse, 
+  ItemDTO,
+  ResenhaDTO,
+  ResenhaResponse
+} from '../../DTOs/api.dto';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { loginRequest, loginResponse } from '../../DTOs/LoginDTO';
-import { recuperarRequest } from '../../DTOs/recuperarSenha';
-import { environment } from '../../../environments/environment';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private url: string = "http://localhost:8080/api/v1";
 
-  constructor(private http:HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
-  private urlUsuario: string = environment.urlBase + "/usuario";
-
-  cadastrarUsuario(body:cadastroUsuarioRequest): Observable<loginResponse>{
-    return  this.http.post<loginResponse>(this.urlUsuario +"/" , body);
+  LogarUsuario(dados: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.url}/usuario/login`, dados);
   }
 
-  LogarUsuario(body:loginRequest): Observable<loginResponse>{
-    return  this.http.post<loginResponse>(this.urlUsuario +"/login" , body);
-  }
-
-  RecuperarSenha(body:recuperarRequest): Observable<UsuarioResponse>{
-    return  this.http.post<UsuarioResponse>(this.urlUsuario +"/recuperar" , body);
+  cadastrarUsuario(dados: CadastroRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.url}/usuario/`, dados);
   }
 
 
-  verificarErro(error: HttpErrorResponse): boolean {
-    if (error.status == 0) {
-      
-      sessionStorage.clear();
-      alert("De alguma forma não foi possivel se conectar ao servidor")
+  listarRestaurantes(pagina = 0, linhas = 10): Observable<Page<RestauranteResponse>> {
+    const params = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('linhas', linhas.toString());
+    return this.http.get<Page<RestauranteResponse>>(`${this.url}/restaurante/listar`, { params });
+  }
 
-      setTimeout(() => {
-        sessionStorage.setItem("redirecionamento", "login");
-        this.router.navigate(['/']);
-      }, 1000);
-      return true;
-    }
-    else if (error.status === 401) {
+  criarRestaurante(dados: RestauranteDTO): Observable<RestauranteResponse> {
+    return this.http.post<RestauranteResponse>(`${this.url}/restaurante/criar`, dados);
+  }
 
-      if (sessionStorage.getItem("token") != null) {
-        alert("sessão expirou, necessário refazer o login");
-      }
-      else
-        alert("é necessário estar logado para acessar este conteudo");
+  listarLogDoRestaurante(restauranteId: number): Observable<Page<LogResponse>> {
+    return this.http.get<Page<LogResponse>>(`${this.url}/restaurante/${restauranteId}/log`);
+  }
 
-      sessionStorage.clear();
-      setTimeout(() => {
-        sessionStorage.setItem("redirecionamento", "login");
-        this.router.navigate(['/']);
-      }, 1000);
 
-      return true;
-    }
-    return false;
+  listarItensDoRestaurante(restauranteId: number): Observable<Page<ItemResponse>> {
+    return this.http.get<Page<ItemResponse>>(`${this.url}/restaurante/${restauranteId}/item/listar`);
+  }
+
+  criarItem(restauranteId: number, dados: ItemDTO): Observable<ItemResponse> {
+
+    return this.http.post<ItemResponse>(`${this.url}/restaurante/${restauranteId}/item/criar`, dados);
+  }
+
+
+  criarResenhaRestaurante(restauranteId: number, dados: ResenhaDTO): Observable<ResenhaResponse> {
+    return this.http.post<ResenhaResponse>(`${this.url}/resenha/escrever/restaurante/${restauranteId}`, dados);
+  }
+
+    listarResenhasDoItem(itemId: number, pagina = 0, linhas = 10): Observable<Page<ResenhaResponse>> {
+    const params = new HttpParams().set('pagina', pagina.toString()).set('linhas', linhas.toString());
+    return this.http.get<Page<ResenhaResponse>>(`${this.url}/resenha/listar/item/${itemId}`, { params });
+  }
+
+  criarResenhaItem(itemId: number, dados: ResenhaDTO): Observable<ResenhaResponse> {
+    return this.http.post<ResenhaResponse>(`${this.url}/resenha/escrever/item/${itemId}`, dados);
+  }
+
+  listarResenhasDoRestaurante(restauranteId: number, pagina = 0, linhas = 10): Observable<Page<ResenhaResponse>> {
+    const params = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('linhas', linhas.toString());
+    return this.http.get<Page<ResenhaResponse>>(`${this.url}/resenha/listar/restaurantes/${restauranteId}`, { params });
   }
 }

@@ -1,0 +1,107 @@
+
+:host {
+  --cor-primaria: #D4AF37; 
+  --cor-fundo-principal: #1A1A1A; 
+  --cor-fundo-card: #2A2A2A; 
+  --cor-texto-principal: #EAEAEA;
+  --cor-texto-secundario: #B0B0B0;
+  --cor-borda-sutil: rgba(255, 255, 255, 0.1);
+  --font-principal: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  
+  display: block;
+  background-color: var(--cor-fundo-principal);
+  min-height: 100vh;
+  font-family: var(--font-principal);
+  color: var(--cor-texto-principal);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 2rem 2rem 2rem;
+}
+
+.pagina-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--cor-borda-sutil);
+  padding-bottom: 1rem;
+}
+
+h1 { font-size: 2rem; font-weight: 700; color: var(--cor-texto-principal); }
+
+.btn-criar {
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo-principal);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-criar:hover { background-color: #e0b841; transform: translateY(-2px); }
+
+.restaurante-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.restaurante-card {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda-sutil);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.restaurante-card:hover { transform: translateY(-5px); border-color: var(--cor-primaria); }
+.card-conteudo { padding: 1.5rem; }
+.card-titulo { font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--cor-texto-principal); }
+.card-info { color: var(--cor-texto-secundario); margin: 0.25rem 0; }
+.card-acoes { background-color: rgba(0, 0, 0, 0.2); padding: 1rem 1.5rem; border-top: 1px solid var(--cor-borda-sutil); text-align: right; }
+.btn-detalhes {
+    background: none;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.btn-detalhes:hover { background-color: var(--cor-primaria); color: var(--cor-fundo-principal); }
+
+
+.feedback-container {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: var(--cor-texto-secundario);
+}
+.feedback-container.erro { color: #EF9A9A; }
+.feedback-container a { color: var(--cor-primaria); text-decoration: underline; }
+
+.feedback-container {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: var(--cor-texto-secundario);
+}
+
+.feedback-container.erro {
+  color: #EF9A9A;
+}
+
+.feedback-container a {
+  color: var(--cor-primaria);
+  text-decoration: underline;
+  cursor: pointer;
+}

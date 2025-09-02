@@ -1,0 +1,42 @@
+
+
+<div class="container">
+  <header class="pagina-header">
+    <h1>Restaurantes Disponíveis</h1>
+    <button class="btn-criar" routerLink="/restaurantes/criar">Adicionar Restaurante</button>
+  </header>
+
+  
+  <div *ngIf="carregando" class="feedback-container">
+    <p>Carregando restaurantes...</p>
+  </div>
+
+  
+  <div *ngIf="mensagemErro" class="feedback-container erro">
+    <p>{{ mensagemErro }}</p>
+    <a routerLink="/">Voltar para o Login</a>
+  </div>
+
+  
+  <div *ngIf="!carregando && !mensagemErro">
+    
+    <div *ngIf="restaurantes.length === 0" class="feedback-container">
+      <p>Nenhum restaurante encontrado. Seja o primeiro a criar um!</p>
+    </div>
+
+    
+    <div class="restaurante-lista" *ngIf="restaurantes.length > 0">
+      <div *ngFor="let restaurante of restaurantes" class="restaurante-card">
+        <div class="card-conteudo">
+          
+          <h3 class="card-titulo">{{ restaurante.nome }}</h3>
+          <p class="card-info">Abre: {{ restaurante.Abertura }}</p>
+          <p class="card-info">Fecha: {{ restaurante.fechamento }}</p>
+        </div>
+        <div class="card-acoes">
+          <button class="btn-detalhes" [routerLink]="['/restaurante', restaurante.id]">Ver Detalhes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

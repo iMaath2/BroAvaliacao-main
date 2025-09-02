@@ -1,0 +1,22 @@
+
+
+<div class="modal-overlay" (click)="onFechar()"></div>
+
+<div class="modal-content">
+  <div class="modal-header">
+    <div>
+      <h2 class="modal-title">Log de Interações</h2>
+      <p class="modal-subtitle">para {{ nomeRestaurante }}</p>
+    </div>
+    <button class="btn-fechar" (click)="onFechar()">×</button>
+  </div>
+
+  <div class="modal-body">
+    <ul class="log-lista">
+      <li *ngFor="let log of logs" class="log-item">
+        <span class="log-mensagem">{{ log.mensagem }}</span>
+        <span class="log-data">{{ log.data }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

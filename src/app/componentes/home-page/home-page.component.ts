@@ -1,23 +1,49 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {  MatButtonModule } from '@angular/material/button';
-import {  MatInputModule} from "@angular/material/input";
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../servicos/apiService/api.service';
-import { loginRequest } from '../../DTOs/LoginDTO';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { cadastroUsuarioRequest } from '../../DTOs/cadastroDTO';
-
+import { LoginRequest, CadastroRequest } from '../../DTOs/api.dto';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [MatInputModule, ReactiveFormsModule, MatButtonModule, MatSelectModule],
+  imports: [
+    CommonModule,
+    MatInputModule, 
+    ReactiveFormsModule, 
+    MatButtonModule, 
+    MatSelectModule
+  ],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements AfterViewInit{
+export class HomePageComponent implements AfterViewInit {
+  
+  resenhasDestaque = [
+    {
+      titulo: 'Uma experiência incrível!',
+      conteudo: '"O Cantinho da Vovó serve a melhor broa de fubá que já comi. O ambiente é super aconchegante e o atendimento é impecável. Recomendo a todos!"',
+      autor: 'Ana Silva ',
+      restaurante: 'Cantinho da Vovó'
+    },
+    {
+      titulo: 'Sabor de infância!',
+      conteudo: '"A broa de milho da Broa & Cia me transportou diretamente para a cozinha da minha avó. Simplesmente delicioso e com um preço justo. Voltarei sempre."',
+      autor: 'Carlos Pereira ',
+      restaurante: 'Broa & Cia'
+    },
+    {
+      titulo: 'Perfeito para um café da tarde',
+      conteudo: '"Se você procura um lugar tranquilo para um café, a Padaria Pão de Ouro é a escolha certa. O sonho de creme é divino e combina perfeitamente com o café coado."',
+      autor: 'Juliana Costa ',
+      restaurante: 'Padaria Pão de Ouro'
+    }
+  ];
 
   constructor(private api:ApiService, private router:Router){
 
@@ -42,17 +68,17 @@ ngAfterViewInit() {let redi = sessionStorage.getItem("redirecionamento");
     senha: new FormControl("",[Validators.required, Validators.minLength(4)]),
     confSenha: new FormControl("",[Validators.required, Validators.minLength(4)]),
     email: new FormControl("",[Validators.required, Validators.minLength(4), Validators.email]),
-    data: new FormControl("",[Validators.required, Validators.minLength(10)]),
   });
 
   fazerLogin(){
     
     if(this.formulario.valid){
-      this.api.LogarUsuario(this.formulario.value as loginRequest ).subscribe({
+      this.api.LogarUsuario(this.formulario.value as LoginRequest ).subscribe({
         next: (data) =>{
           sessionStorage.setItem("token",data.accessToken );
           this.formulario.reset;
           this.router.navigate(["/paginaPrincipal"]);
+          this.router.navigate(['/restaurantes']); 
 
         },
         error: (error:HttpErrorResponse) =>{
@@ -67,7 +93,7 @@ ngAfterViewInit() {let redi = sessionStorage.getItem("redirecionamento");
   fazerCadastro(){
     console.log("metodo chamado")
     if(this.formCadastro.valid){
-      this.api.cadastrarUsuario(this.formCadastro.value as cadastroUsuarioRequest).subscribe({
+      this.api.cadastrarUsuario(this.formCadastro.value as CadastroRequest).subscribe({
         next: (data) =>{
           console.log(data)
           this.formCadastro.reset();

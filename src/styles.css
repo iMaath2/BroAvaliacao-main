@@ -1,10 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 html, body { height: 100%; }
 body { 
     margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
 
-    /* corres do sistema */
+    
     --corPrimaria: #fdde51;
     --corSegundaria:  #f9dc68 ;
     --corTerciaria: #f36e4c;
@@ -12,7 +12,7 @@ body {
     --corBranco:#f5f5e4;
     --corPreto:  #312f2f;
 
-     /* estilo global */
+     
 
      --alturaPadrao: 94vh;
 
